@@ -1,4 +1,4 @@
-import students from '../dummy/students.js';
+const students = require('../dummy/students.js');
 class StudentController {
     // Get all students
     static getAllStudents(req, res) {
@@ -21,4 +21,4 @@ class StudentController {
            });
     }
 }
-export default StudentController;
+module.exports = StudentController;
