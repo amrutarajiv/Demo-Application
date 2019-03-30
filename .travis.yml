@@ -19,7 +19,7 @@ env:
 script:
   - npm run test
   # build latest image always
-  - docker build -t $DOCKER_REPO_SLUG:travislatest .
+  - docker build -t $DOCKER_REPO_SLUG:latest .
   # build the tagged image
   - if [[ $TRAVIS_TAG = $TRAVIS_BRANCH ]]; then docker build -t $DOCKER_REPO_SLUG:$TRAVIS_BRANCH .; else true ; fi
 
