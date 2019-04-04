@@ -16,3 +16,11 @@ pipeline {
         bat 'npm install'
       }
     }
+     
+    stage('Test') {
+      steps {
+         bat 'npm test'
+      }
+    }      
+  }
+}
