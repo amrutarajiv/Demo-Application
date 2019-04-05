@@ -12,14 +12,15 @@ node {
     }
     
     stage('Build Docker image'){
-        bat 'docker build -t amrutarajiv/docker-test:1.0 .'
+        bat "docker build -t amrutarajiv/docker-test:${env.BUILD_ID} ."
     }
     
     stage('Push Docker image'){
         withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerHubPwd')]) {
             bat "docker login -u amrutarajiv -p ${dockerHubPwd}"
         }        
-    bat 'docker push amrutarajiv/docker-test:1.0'
+        
+        bat "docker push amrutarajiv/docker-test:${env.BUILD_ID}"
         
     }
 }
