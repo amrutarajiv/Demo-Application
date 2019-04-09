@@ -25,9 +25,9 @@ node {
     }
     
     	stage('Run Container on Dev server'){
-		def dockerRun = "docker run -p 8080:8080 -d --name Node-Docker-App amrutarajiv/docker-test:${env.BUILD_ID}" 
+		def dockerRun = "docker run -p 8000:8000 -d --name Node-Docker-App amrutarajiv/docker-test:${env.BUILD_ID}" 
 		sshagent(['dev-server']) {
-			bat "ssh -o StrictHostKeyChecking=no ec2-18-224-16-156.us-east-2.compute.amazonaws.com ${dockerRun}"
+			bat "ssh -o StrictHostKeyChecking=no ec2-user@ec2-18-224-16-156.us-east-2.compute.amazonaws.com ${dockerRun}"
 		}
 	}
 }
