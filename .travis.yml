@@ -9,21 +9,21 @@ node_js:
 install:
   - npm install
 
+script:
+  - npm run test
+
+sudo: required
+
 services:
   - docker
 
-env:
-  global:
-    - DOCKER_USERNAME
-    - DOCKER_PASSWORD
 
-script:
-  - npm run test
-  # build latest image always
-  - docker build -t amrutarajiv/node-docker-test:$TRAVIS_BUILD_ID .
+before_install:
+# build latest image always
+  - docker build -t amrutarajiv/node-docker-test .
 
 after_success:
-  # IMPORTANT! Add the environment variables in Travis Build Environment (one time!)
-  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-  # push image to docker hub
-  - docker push amrutarajiv/node-docker-test:$TRAVIS_BUILD_ID
+# IMPORTANT! Add the environment variables in Travis Build Environment (one time!)
+  - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+# push image to docker hub
+  - docker push amrutarajiv/node-docker-test;
