@@ -14,15 +14,15 @@ services:
 
 env:
   # IMPORTANT! Add your docker slug here (commit once)
-  - DOCKER_REPO=amrutarajiv/node-docker-test
+  - TRAVIS_REPO_SLUG=amrutarajiv/node-docker-test
 
 script:
   - npm run test
   # build latest image always
-  - docker build -t $DOCKER_REPO:${env.BUILD_ID} .
+  - docker build -t $TRAVIS_REPO_SLUG:$TRAVIS_BUILD_ID .
 
 after_success:
   # IMPORTANT! Add the environment variables in Travis Build Environment (one time!)
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   # push image to docker hub
-  - docker push $DOCKER_REPO:${env.BUILD_ID}
+  - docker push $TRAVIS_REPO_SLUG:$TRAVIS_BUILD_ID
