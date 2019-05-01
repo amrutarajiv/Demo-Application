@@ -12,10 +12,8 @@ node {
     }
 
     stage('Sonarqube') {
-    environment {
-        scannerHome = tool 'SonarQubeScanner'
-    }
-    steps {
+        def scannerHome = tool 'SonarQubeScanner'
+    
         withSonarQubeEnv('Sonar') {
             bat "${scannerHome}/bin/sonar-scanner"
         }
@@ -23,7 +21,6 @@ node {
             waitForQualityGate abortPipeline: true
         }
     }
-}
     
     stage('Build Docker image'){
         bat "docker build -t amrutarajiv/docker-test:${env.BUILD_ID} ."
