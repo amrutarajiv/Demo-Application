@@ -10,6 +10,20 @@ node {
             bat 'npm test'
         }
     }
+
+    stage('Sonarqube') {
+    environment {
+        scannerHome = tool 'SonarQubeScanner'
+    }
+    steps {
+        withSonarQubeEnv('Sonar') {
+            bat "${scannerHome}/bin/sonar-scanner"
+        }
+        timeout(time: 10, unit: 'MINUTES') {
+            waitForQualityGate abortPipeline: true
+        }
+    }
+}
     
     stage('Build Docker image'){
         bat "docker build -t amrutarajiv/docker-test:${env.BUILD_ID} ."
