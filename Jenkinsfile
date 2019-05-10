@@ -11,7 +11,6 @@ node {
     
     stage('Build and Test'){
         nodejs('node') {
-            //bat 'npm install'
             bat 'npm test'
         }
     }
