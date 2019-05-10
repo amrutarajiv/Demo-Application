@@ -1,12 +1,17 @@
 node {
     
     stage('SCM Checkout') {
-        git credentialsId: 'github', url: 'https://github.com/amrutarajiv/mocha-chai-sample'
+        git credentialsId: 'github', url: 'https://github.com/amrutarajiv/DevOps-Demo-Application'
+    }
+
+    stage('Build Application'){
+        def mvnHome = tool name: 'maven-3', type: 'maven'
+        bat "${mvnHome}/bin/mvn install"
     }
     
     stage('Build and Test'){
         nodejs('node') {
-            bat 'npm install'
+            //bat 'npm install'
             bat 'npm test'
         }
     }
