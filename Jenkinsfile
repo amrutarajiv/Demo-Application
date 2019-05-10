@@ -6,7 +6,7 @@ node {
 
     stage('Build Application'){
         def mvnHome = tool name: 'maven-3', type: 'maven'
-        bat "${mvnHome}/bin/mvn install"
+        bat "\"${mvnHome}\"\\bin\\mvn install"
     }
     
     stage('Build and Test'){
