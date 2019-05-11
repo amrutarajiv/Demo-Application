@@ -27,9 +27,19 @@ node {
         }
     }
     
-    stage('Build Docker image'){
+    try{
+        stage('Build Docker image'){
         bat "docker build -t amrutarajiv/docker-test:${env.BUILD_ID} ."
-    }
+        }
+    } 
+    catch(error){
+            slackSend baseUrl: 'https://hooks.slack.com/services/', 
+            channel: '#devops-pipeline', 
+            color: 'danger', 
+            message: 'Docker build failed', 
+            teamDomain: 'DevOps Team', 
+            tokenCredentialId: 'slack'
+    }  
     
     stage('Push Docker image'){
         withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerHubPwd')]) {
