@@ -26,19 +26,10 @@ node {
         }
     }
     
-    try{
-        stage('Build Docker image'){
+    stage('Build Docker image'){
         bat "docker build -t amrutarajiv/docker-test:${env.BUILD_ID} ."
-        }
-    } 
-    catch(error){
-            slackSend baseUrl: 'https://hooks.slack.com/services/', 
-            channel: '#devops-pipeline', 
-            color: 'danger', 
-            message: 'Docker build failed', 
-            teamDomain: 'DevOps Team', 
-            tokenCredentialId: 'slack'
-    }  
+    }
+     
     
     stage('Push Docker image'){
         withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerHubPwd')]) {
@@ -55,4 +46,34 @@ node {
 			bat "ssh -o StrictHostKeyChecking=no ec2-user@ec2-18-224-16-156.us-east-2.compute.amazonaws.com ${dockerRun}"
 		}
 	}
+//Triggered for every stage
+    post {
+       // only triggered when build is successful
+       success {
+                    slackSend baseUrl: 'https://hooks.slack.com/services/', 
+                    channel: '#devops-pipeline', 
+                    color: 'good', 
+                    message: 'Jenkins stage ran successfully', 
+                    teamDomain: 'DevOps Team', 
+                    tokenCredentialId: 'slack'
+       }
+       // triggered when build fails
+       failure {
+                    slackSend baseUrl: 'https://hooks.slack.com/services/', 
+                    channel: '#devops-pipeline', 
+                    color: 'danger', 
+                    message: 'Jenkins stage failed', 
+                    teamDomain: 'DevOps Team', 
+                    tokenCredentialId: 'slack'
+        }
+       // triggerred always
+       always   {
+                    slackSend baseUrl: 'https://hooks.slack.com/services/', 
+                    channel: '#devops-pipeline', 
+                    color: 'good', 
+                    message: 'Jenkins Pipeline job is running', 
+                    teamDomain: 'DevOps Team', 
+                    tokenCredentialId: 'slack'
+        }
+    }
 }
