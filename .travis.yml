@@ -10,7 +10,6 @@ before_script:
   - docker build -t $DOCKER_USERNAME/node-docker-test .
 
 script:
-  - npm run test
   - docker images $DOCKER_USERNAME/node-docker-test
 
 after_success:
