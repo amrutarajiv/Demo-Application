@@ -1,19 +1,13 @@
-sudo: required
-
 language: node_js
+cache:
+  directories:
+    - node_modules
 
-services:
-  - docker
+node_js:
+  - 'stable'
 
-before_script:
-# build latest image always
-  - docker build -t $DOCKER_USERNAME/node-docker-test .
+install:
+  - npm install
 
 script:
-  - docker images $DOCKER_USERNAME/node-docker-test
-
-deploy:
-provider: heroku
-api_key:
-  secure: $HEROKU_API_KEY
-app: heroku-ci-cd-app
+  - npm run test
