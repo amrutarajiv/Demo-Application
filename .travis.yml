@@ -12,12 +12,6 @@ before_script:
 script:
   - docker images $DOCKER_USERNAME/node-docker-test
 
-after_success:
-# IMPORTANT! Add the environment variables in Travis Build Environment (one time!)
-  - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-# push image to docker hub
-  - docker push $DOCKER_USERNAME/node-docker-test:latest;
-  
 deploy:
 provider: heroku
 api_key:
