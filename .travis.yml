@@ -17,3 +17,9 @@ after_success:
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
 # push image to docker hub
   - docker push $DOCKER_USERNAME/node-docker-test:latest;
+  
+deploy:
+provider: heroku
+api_key:
+  secure: $HEROKU_API_KEY
+app: heroku-ci-cd-app
